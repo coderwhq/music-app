@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
-  const title = ref('Hello weilangpu')
+  const title = ref('Hello 青蛙王子')
 </script>
 
 <style lang="scss">
