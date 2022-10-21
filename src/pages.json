@@ -9,7 +9,8 @@
     {
     	"path": "pages/video/video",
     	"style": {
-    		"navigationBarTitleText": "视频"
+    		"navigationBarTitleText": "视频",
+        "enablePullDownRefresh": true
     	}
     }
 	],

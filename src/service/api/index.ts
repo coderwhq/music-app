@@ -1,11 +1,12 @@
 import { request } from './instance'
 
-function test() {
+function getTopMv(config: any) {
   return request.get({
-    url: '/playlist/detail?id=6665838706'
+    url: '/top/mv',
+    ...config
   })
 }
 
 export {
-  test
+  getTopMv
 }

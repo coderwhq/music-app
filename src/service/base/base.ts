@@ -26,6 +26,7 @@ class BaseRequest {
         method: config.method ?? 'GET',
         data: config.data,
         success: (res: any) => {
+          res = res.data
           if(this.interceptor?.interceptorResponse) {
             res = this.interceptor.interceptorResponse(res)
           }
