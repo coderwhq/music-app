@@ -42,6 +42,7 @@ class BaseRequest {
           if(config.interceptor?.interceptorResponseCatch) {
             err = config.interceptor.interceptorResponseCatch(err)
           }
+          console.log(err)
           reject(err)
         }
       })

@@ -12,8 +12,15 @@
     		"navigationBarTitleText": "视频",
         "enablePullDownRefresh": true
     	}
+    },
+    {
+    	"path": "pages/detail-video/detail-video",
+    	"style": {
+    		"navigationBarTitleText": "视频详情",
+        "enablePullDownRefresh": true
+    	}
     }
-	],
+  ],
   "tabBar": {
   	"color": "#aaa",
   	"selectedColor": "#1dcf9f",

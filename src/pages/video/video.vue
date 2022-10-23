@@ -1,6 +1,6 @@
 <template>
-  <view class="video">
-    <view v-for="item in topMvList" class="item" >
+  <view class="video" v-if="topMvList.length">
+    <view v-for="item in topMvList" class="item" @click="handleMvItemClick(item)">
       <video-item :item="item" :key="item.id" />
     </view>
   </view>
@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { onPullDownRefresh, onReachBottom } from '@dcloudio/uni-app';
+  import { onLoad, onPullDownRefresh, onReachBottom } from '@dcloudio/uni-app';
   
   import VideoItem from '@/components/video-item/video-item'
   
@@ -17,18 +17,17 @@
   const topMvList = ref<any>([])
   const offset = ref(0)
   const limit = ref(20)
+  
+  onLoad(() => {
+    uni.startPullDownRefresh({})
+  })
+  
   const getTopMvList = async (isPullDown: boolean) => {
     isPullDown && uni.startPullDownRefresh({})
-    const res: any = await getTopMv({
-      data: {
-        offset: offset.value,
-        limit: limit.value
-      }
-    })
+    const res: any = await getTopMv(offset.value, limit.value)
     topMvList.value.push.apply(topMvList.value, res.data)
-    isPullDown && uni.stopPullDownRefresh();
+    uni.stopPullDownRefresh();
   }
-  getTopMvList(true)
   
   onReachBottom(() => {
     offset.value += 20
@@ -38,8 +37,14 @@
   onPullDownRefresh(() => {
     offset.value = 0
     topMvList.value = []
-    getTopMvList(true)
+    getTopMvList(false)
   })
+  
+  const handleMvItemClick = (item: any) => {
+    uni.navigateTo({
+      url: `/pages/detail-video/detail-video?id=${item.id}`
+    })
+  } 
   
 </script>
 

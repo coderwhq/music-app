@@ -21,4 +21,7 @@
     width: 100%;
     overflow-x: hidden;
   }
+  image{
+    will-change: transform
+  }
 </style>
