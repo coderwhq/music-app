@@ -49,13 +49,21 @@
   
   const getVideoDetailInfo = async (isPullDown: boolean) => {
     isPullDown && uni.startPullDownRefresh({})
-    const url: any = await getVideoUrl(videoId.value, isMv.value)
-    videoUrl.value = url.data ?? url.urls[0]
-    const data: any = await getVideoDetail(videoId.value, isMv.value)
-    videoData.value = data.data
-    const relatedVideoData: any = await getRelatedVideo(videoId.value)
-    relatedVideo.value = relatedVideoData.data
-    uni.stopPullDownRefresh();
+    Promise.all([
+      getVideoUrl(videoId.value, isMv.value),
+      getVideoDetail(videoId.value, isMv.value),
+      getRelatedVideo(videoId.value)
+    ])
+      .then((res) => {
+        const [url, data, relatedVideoData]: any = res
+        videoUrl.value = url.data ?? url.urls[0]
+        videoData.value = data.data
+        relatedVideo.value = relatedVideoData.data
+        uni.stopPullDownRefresh();
+      }) 
+      .catch((err) => {
+        console.log(err)
+      })
   }
   
   onPullDownRefresh(() => {
@@ -74,7 +82,7 @@
   
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .detail-video {
     width: 100%;
   }
