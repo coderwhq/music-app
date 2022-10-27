@@ -29,14 +29,14 @@
   	"list": [
       {
         "pagePath": "pages/home/home",
-        "iconPath": "static/home_normal.png",
-        "selectedIconPath": "static/home_active.png",
+        "iconPath": "static/tabbar/home_normal.png",
+        "selectedIconPath": "static/tabbar/home_active.png",
         "text": "首页"
       }, 
       {
         "pagePath": "pages/video/video",
-        "iconPath": "static/video_normal.png",
-        "selectedIconPath": "static/video_active.png",
+        "iconPath": "static/tabbar/video_normal.png",
+        "selectedIconPath": "static/tabbar/video_active.png",
         "text": "视频"
       }
     ]
