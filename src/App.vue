@@ -10,7 +10,7 @@
     console.log('App Hide')
   })
 </script>
-<style>
+<style lang="scss">
   *{
     margin: 0;
     padding: 0;
@@ -23,5 +23,8 @@
   }
   image{
     will-change: transform
+  }
+  page {
+    background-color: $uni-bg-color-grey;
   }
 </style>
