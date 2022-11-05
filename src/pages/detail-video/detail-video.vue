@@ -5,7 +5,7 @@
       <view class="mv-info" v-if="videoData.artistName ?? videoData.creator">
         <text class="mvname">{{videoData.name ?? videoData.title}}</text>
         <text class="mvartisname">{{videoData.artistName ?? videoData.creator.nickname}}</text>
-        <text class="otherinfo">{{`${videoData.playCount ?? videoData.playTime}次播放 - ${videoData.publishTime}`}}</text>
+        <text class="otherinfo">{{`${formatCount(videoData.playCount ?? videoData.playTime)}次播放 - ${formatDate(videoData.publishTime)}`}}</text>
       </view>
     </view>
     <view class="recommend-mv" v-if="relatedVideo.length">
@@ -16,7 +16,7 @@
             <image class="item-image" :src="item.coverUrl" mode="heightFix"></image>
             <text class="play-count" v-if="item.coverUrl">
               <uni-icons class="icon" type="videocam" size="15" color="#fff"></uni-icons>
-              <text>{{item.playTime}}</text>
+              <text>{{formatCount(item.playTime)}}</text>
             </text>
           </view>
           <view class="item-info">
@@ -34,6 +34,8 @@
   import { onLoad, onPullDownRefresh } from '@dcloudio/uni-app'
   
   import { getVideoDetail, getVideoUrl, getRelatedVideo } from '@/service/api/index'
+  
+  import { formatCount, formatDate } from '@/util'
   
   const isMv = ref<boolean>(true)
   const videoId = ref<number>(0)

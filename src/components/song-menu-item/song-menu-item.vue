@@ -3,7 +3,7 @@
     <view class="item">
       <view class="top">
         <image class="image" mode="widthFix" :src="item.coverImgUrl || item.picUrl"></image>
-        <view class="play-counter">{{item.playCount}}</view>
+        <view class="play-counter">{{formatCount(item.playCount)}}</view>
       </view>
       <view class="bottom">
         {{item.name}}
@@ -13,6 +13,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { formatCount } from '@/util'
   defineProps({
     item: {
       type: Object,

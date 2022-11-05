@@ -13,12 +13,13 @@
     </view>
     <view class="album" v-if="item.coverImgUrl">
       <image class="image" :src="item.coverImgUrl" mode="aspectFill"></image>
-      <view class="play-counter">{{item.playCount}}</view>
+      <view class="play-counter">{{formatCount(item.playCount)}}</view>
     </view>
   </view>
 </template>
 
 <script lang="ts" setup>
+  import { formatCount } from '@/util'
   defineProps({
     item: {
       default: Object,

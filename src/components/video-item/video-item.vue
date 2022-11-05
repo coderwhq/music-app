@@ -5,9 +5,9 @@
       <view class="info">
         <view class="playcount">
           <uni-icons class="icon" type="videocam" size="20" color="#fff"></uni-icons>
-          <text>{{item.playCount}}</text>
+          <text>{{formatCount(item.playCount)}}</text>
         </view>
-        <view class="duration">{{item.mv.videos[0].duration}}</view>
+        <view class="duration">{{formatCount(item.mv.videos[0].duration)}}</view>
       </view>
     </view>
     <view class="content">
@@ -17,6 +17,8 @@
 </template>
 
 <script lang="ts" setup>
+  
+  import { formatCount } from '@/util'
   
   defineProps({
     item: Object
