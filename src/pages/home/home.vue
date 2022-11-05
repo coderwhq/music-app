@@ -15,7 +15,7 @@
     <!-- 发现音乐 -->
     <!-- /personalized/newsong -->
     <view class="find-song" v-if="personalizedNewsong">
-      <area-header title="发现音乐" @click="handleMoreClick"/>
+      <area-header title="发现音乐" :show-right="false" @click="handleMoreClick"/>
       <view class="song-list">
         <template v-for="item in personalizedNewsong" :key="item.id" >
           <song-item :item="item" @click="handleMucisClick"/>
@@ -34,7 +34,7 @@
       <area-header title="巅峰榜" :show-right="false" />
       <view class="ranking-list" v-if="rankingStore.getRankSongMenu">
         <template v-for="item in rankingStore.getRankSongMenu" :key="item.id">
-          <ranking-area-item :item="item" v-if="item.tracks && item.tracks.length" @click="handleRankingItemClick" />
+          <ranking-area-item :item="item" v-if="item.tracks && item.tracks.length" @click="handleRankingItemClick(item.id)" />
         </template>
       </view> 
     </view>
@@ -101,6 +101,7 @@
       })
       .catch((err) => {
         console.log(err)
+        uni.stopPullDownRefresh()
       })
   }
   
@@ -127,8 +128,11 @@
     // 音乐跳转
   }
   
-  const handleRankingItemClick = () => {
+  const handleRankingItemClick = (id: any) => {
     // 巅峰榜跳转
+    uni.navigateTo({
+      url: `/pages/detail-songs/detail-songs?type=rank&id=${id}`
+    })
   }
   
 </script>

@@ -2,7 +2,7 @@
   <area-header :title="title" :show-right="false"></area-header>
   <scroll-view scroll-x class="menu-list">
     <template v-for="item in songMenu" :key="item.id">
-      <song-menu-item :item="item" class="menu-item" @click="handleMenuItemClick"></song-menu-item>
+      <song-menu-item :item="item" class="menu-item" @click="handleMenuItemClick(item)"></song-menu-item>
     </template>
   </scroll-view>
 </template>
@@ -20,13 +20,15 @@
     }
   })
   
-  const handleMenuItemClick = () => {
+  const handleMenuItemClick = (item: any) => {
     // 歌单跳转
+    uni.navigateTo({
+      url: `/pages/detail-songs/detail-songs?type=menu&id=${item.id}`
+    })
   }
 </script>
 
 <style lang="scss" scoped>
-  
   .menu-list {
     width: 100vw;
     white-space: nowrap;

@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { getPlaylistDetail } from '@/service/api'
 
 const useRankingStore = defineStore("rankingStore", {
-  state: () => {
+  state(): any{
     return {
       upRanking: {},
       newRanking: {},
@@ -49,6 +49,24 @@ const useRankingStore = defineStore("rankingStore", {
           })
       })
         
+    },
+    getMenuById(id: number) {
+      let menu: any
+      switch(id) {
+        case this.upRanking.id:
+          menu = this.upRanking
+          break
+        case this.newRanking.id:
+          menu = this.newRanking
+          break
+        case this.originRanking.id:
+          menu = this.originRanking
+          break
+        case this.hotRanking.id:
+          menu = this.hotRanking
+          break
+      }
+      return menu
     }
   }
 })

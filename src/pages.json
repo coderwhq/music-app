@@ -20,6 +20,13 @@
     		"navigationBarTitleText": "视频详情",
         "enablePullDownRefresh": true
     	}
+    },
+    {
+    	"path": "pages/detail-songs/detail-songs",
+    	"style": {
+    		"navigationBarTitleText": "歌单详情",
+        "enablePullDownRefresh": true
+    	}
     }
   ],
   "tabBar": {
