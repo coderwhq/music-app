@@ -27,6 +27,15 @@
     		"navigationBarTitleText": "歌单详情",
         "enablePullDownRefresh": true
     	}
+    },
+    {
+      "path" : "pages/detail-search/detail-search",
+      "style" :                                                                                    
+      {
+          "navigationBarTitleText": "搜索",
+          "enablePullDownRefresh": true
+      }
+          
     }
   ],
   "tabBar": {

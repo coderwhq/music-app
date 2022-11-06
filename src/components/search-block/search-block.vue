@@ -5,9 +5,10 @@
           class="input" 
           confirm-type="search" 
           type="text" 
-          placeholder="搜索你喜欢的歌曲" 
+          placeholder="搜索你喜欢的歌曲"
           :disabled="disabled" 
           v-model="value" 
+          :focus="focus"
           @confirm="hanldeConfirm"
           @input="handleInput"
     />
@@ -18,6 +19,10 @@
   import {ref} from 'vue'
   defineProps({
     disabled: {
+      type: Boolean,
+      default: false
+    },
+    focus: {
       type: Boolean,
       default: false
     }
@@ -32,6 +37,11 @@
   const handleInput = (event: any) => {
     emit('input', event)
   }
+  
+  defineExpose({
+    contain: value
+  }) 
+  
 </script>
 
 <style scoped lang="scss">

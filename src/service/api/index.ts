@@ -101,6 +101,34 @@ function getPlaylistDetail(id: any) {
   })
 }
 
+// 获取热搜列表
+function getSearchHot() {
+  return request.get({
+    url: "/search/hot"
+  })
+}
+
+// 获取搜索建议
+function getSearchSuggest(keywords: any) {
+  return request.get({
+    url: "/search/suggest",
+    data: {
+      keywords,
+      type: "mobile"
+    }
+  })
+}
+
+// 搜索详情
+function getSearchResult(keywords: any) {
+  return request.get({
+    url: "/search",
+    data: {
+      keywords
+    }
+  })
+}
+
 export {
   getTopMv,
   getVideoUrl,
@@ -113,5 +141,9 @@ export {
   getRecommendPlaylist,
   getPlaylistRank,
   
-  getPlaylistDetail
+  getPlaylistDetail,
+  
+  getSearchHot,
+  getSearchSuggest,
+  getSearchResult
 }

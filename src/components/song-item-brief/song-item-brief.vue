@@ -1,11 +1,12 @@
 <template>
   <view class="song-menu-detail-item" v-if="item">
    <view class="item-idx">{{index}}</view>
-    <view class="item-info" v-if="item.name && item.ar">
+    <view class="item-info" v-if="item.name && (item.ar || item.artists)">
       <view class="name">{{item.name}}</view>
       <view class="source">
         <image class="icon" src="../../static/icons/sq_icon.png" mode=""></image>
-        <text v-if="item.ar[0]">{{item.ar[0].name}}</text>
+        <text v-if="item.ar">{{ item.ar[0].name }}</text>
+        <text v-else-if="item.artists">{{ item.artists[0].name }}</text>
       </view>
     </view>
   </view>

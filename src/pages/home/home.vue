@@ -118,6 +118,9 @@
   
   const handleSearchBlockClick = () => {
     // 搜索跳转
+    uni.navigateTo({
+      url: '/pages/detail-search/detail-search'
+    })
   }
   
   const handleMoreClick = () => {
