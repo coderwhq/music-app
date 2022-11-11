@@ -129,6 +129,16 @@ function getSearchResult(keywords: any) {
   })
 }
 
+// 歌曲详情
+function getSongDetail(id: any) {
+  return request.get({
+    url: '/song/detail',
+    data: {
+      ids: id
+    }
+  })
+}
+
 export {
   getTopMv,
   getVideoUrl,
@@ -145,5 +155,7 @@ export {
   
   getSearchHot,
   getSearchSuggest,
-  getSearchResult
+  getSearchResult,
+  
+  getSongDetail
 }

@@ -17,8 +17,8 @@
     <view class="find-song" v-if="personalizedNewsong">
       <area-header title="发现音乐" :show-right="false" @click="handleMoreClick"/>
       <view class="song-list">
-        <template v-for="item in personalizedNewsong" :key="item.id" >
-          <song-item :item="item" @click="handleMucisClick"/>
+        <template v-for="(item, index) in personalizedNewsong" :key="item.id" >
+          <song-item :item="item" @click="handleMucisClick(item, index)"/>
         </template>
       </view>
     </view>
@@ -51,7 +51,7 @@
   import SongMenuArea from '@/components/song-menu-area/song-menu-area'
   import RankingAreaItem from '@/components/ranking-area-item/ranking-area-item'
   
-  import { useRankingStore } from '@/store/index'
+  import { useRankingStore, usePlayerStore } from '@/store/index'
   import { 
             getBanner,
             getPersonalizedNewsong, 
@@ -61,12 +61,16 @@
           } from '@/service/api/index'
   
   const rankingStore = useRankingStore()
+  const playerStore =  usePlayerStore()
   
   const banner = ref<any>()
   const personalizedNewsong = ref<any>()
   const topPlaylist = ref<any>()
   const recommendPlaylist = ref<any>()
   const playlistRankIdArr = ref<any>()
+  
+  // 用于存新歌的id列表
+  let personalizedNewsongs: any = []
   
   onLoad(() => {
     uni.startPullDownRefresh({})
@@ -91,6 +95,10 @@
               ]: any = res
         banner.value = bannerData.banners
         personalizedNewsong.value = personalizedNewsongData.result.slice(0, 6)
+        // 新歌的id列表
+        personalizedNewsongs = personalizedNewsongData.result.map((ele: any) => {
+          return ele.id
+        })
         topPlaylist.value = topPlaylistData.playlists.slice(0, 6)
         recommendPlaylist.value = recommendPlaylistData.result.slice(0, 6)
         playlistRankIdArr.value = playlistRankData.list.slice(0, 4).map((item: any) => {
@@ -127,8 +135,14 @@
     // 更多跳转
   }
   
-  const handleMucisClick = () => {
-    // 音乐跳转
+  const handleMucisClick = (item: any, index: number) => {
+    // 播放跳转
+    // console.log(personalizedNewsongs)
+    // console.log(index)
+    playerStore.initPlayListAndCurrentIndexAction(personalizedNewsongs, index)
+    uni.navigateTo({
+      url: `/pages/music-player/music-player?id=${item.id}`
+    })
   }
   
   const handleRankingItemClick = (id: any) => {

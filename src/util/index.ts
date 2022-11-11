@@ -1,8 +1,12 @@
-import { formatCount, formatDate } from './format'
+import { formatCount, formatDate, formatDuration } from './format'
 import debounce from './debounce'
+
+import { getRandom } from './random'
 
 export {
   formatCount,
   formatDate,
-  debounce
+  formatDuration,
+  debounce,
+  getRandom
 }

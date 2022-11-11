@@ -25,7 +25,19 @@ function padLeftZero(time: any) {
   return ("00" + time).slice(time.length)
 }
 
+function formatDuration (duration: any) {
+  // ms > s
+  duration = duration / 1000
+
+  var minute = Math.floor(duration / 60)
+  var seccond = Math.floor(duration) % 60
+
+  return padLeftZero(minute) + ":" + padLeftZero(seccond)
+}
+
+
 export { 
   formatCount,
-  formatDate
+  formatDate,
+  formatDuration
 }

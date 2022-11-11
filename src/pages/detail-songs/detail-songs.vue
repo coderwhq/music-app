@@ -11,7 +11,7 @@
     
    <template v-if="songs && songs.tracks && songs.tracks.length">
       <template v-for="(item, index) in songs.tracks" :key="item.id">
-        <song-item-brief :item="item" :index="index + 1" @click="handleSongItemClick"/>
+        <song-item-brief :item="item" :index="index + 1" @click="handleSongItemClick(item, index)"/>
       </template>
     </template>
   </view>
@@ -25,11 +25,12 @@
   import SongItemBrief from '@/components/song-item-brief/song-item-brief'
   import SongMenuHeader from '@/components/song-menu-header/song-menu-header'
   
-  import { useRankingStore } from '@/store'
+  import { useRankingStore, usePlayerStore } from '@/store'
   
   import { getPlaylistDetail } from '@/service/api'
   
   const rankingStore = useRankingStore()
+  const playerStore = usePlayerStore()
   
   const type = ref<string>()
   const id = ref<number>()
@@ -76,8 +77,18 @@
     getDetailSongsData(false)
   })
   
-  const handleSongItemClick = () => {
+  const handleSongItemClick = (item: any, index: number) => {
     // 播放跳转
+    // console.log(item)
+    const data: any = songs.value.tracks.map((ele: any) => {
+      return ele.id
+    })
+    // console.log(data)
+    // console.log(index)
+    playerStore.initPlayListAndCurrentIndexAction(data, index)
+    uni.navigateTo({
+      url: `/pages/music-player/music-player?id=${item.id}`
+    })
   }
   
 </script>

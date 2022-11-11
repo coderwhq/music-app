@@ -30,12 +30,17 @@
     },
     {
       "path" : "pages/detail-search/detail-search",
-      "style" :                                                                                    
-      {
-          "navigationBarTitleText": "搜索",
-          "enablePullDownRefresh": true
+      "style" : {
+        "navigationBarTitleText": "搜索",
+        "enablePullDownRefresh": false
       }
-          
+    },
+    {
+      "path" : "pages/music-player/music-player",
+      "style" : {
+        "navigationBarTitleText": "播放",
+        "enablePullDownRefresh": true
+      }
     }
   ],
   "tabBar": {

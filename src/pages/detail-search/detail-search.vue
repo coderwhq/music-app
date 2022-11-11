@@ -23,7 +23,7 @@
     <view class="search-result" v-else-if="songs.length">
       <area-header class="area-header" :show-right="false" title="最佳匹配" />
       <template v-for="(item, index) in songs">
-        <song-item-brief :item="item" :index="index + 1" @click="handleSongItemClick" />
+        <song-item-brief :item="item" :index="index + 1" @click="handleSongItemClick(item, index)" />
       </template>
     </view>
     <!-- 未匹配到内容 -->
@@ -43,7 +43,10 @@
   
   import { getSearchHot, getSearchResult, getSearchSuggest } from '@/service/api'
   
+  import { usePlayerStore } from '@/store'
   import { debounce } from '@/util'
+  
+  const playerStore = usePlayerStore()
   
   const debounceGetSearchSuggest = debounce(getSearchSuggest, 300)
   
@@ -124,8 +127,18 @@
       })
   }
   
-  const handleSongItemClick = () => {
+  const handleSongItemClick = (item: any, index: number) => {
     // 播放跳转
+    // console.log(item)    
+    const data: any = songs.value.map((ele: any) => {
+      return ele.id
+    })
+    // console.log(data)
+    // console.log(index)
+    playerStore.initPlayListAndCurrentIndexAction(data, index)
+    uni.navigateTo({
+      url: `/pages/music-player/music-player?id=${item.id}`
+    })
   }
   
 </script>
