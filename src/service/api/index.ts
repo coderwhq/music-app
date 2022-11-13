@@ -139,6 +139,16 @@ function getSongDetail(id: any) {
   })
 }
 
+// 获取歌词
+function getLyric(id: any) {
+  return request.get({
+    url: '/lyric',
+    data: {
+      id
+    }
+  })
+}
+
 export {
   getTopMv,
   getVideoUrl,
@@ -157,5 +167,6 @@ export {
   getSearchSuggest,
   getSearchResult,
   
-  getSongDetail
+  getSongDetail,
+  getLyric
 }

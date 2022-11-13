@@ -3,10 +3,13 @@ import debounce from './debounce'
 
 import { getRandom } from './random'
 
+import { parseLyric } from './parse-lyric'
+
 export {
   formatCount,
   formatDate,
   formatDuration,
   debounce,
-  getRandom
+  getRandom,
+  parseLyric
 }

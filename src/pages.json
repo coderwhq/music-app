@@ -39,7 +39,8 @@
       "path" : "pages/music-player/music-player",
       "style" : {
         "navigationBarTitleText": "播放",
-        "enablePullDownRefresh": true
+        "enablePullDownRefresh": true,
+        "navigationStyle": "custom"
       }
     }
   ],

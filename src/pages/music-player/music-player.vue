@@ -2,11 +2,15 @@
   <view class="music-player" v-if="playerStore.currentMusic">
     <image v-if="playerStore.currentMusic.al" class="backimg" :src="playerStore.currentMusic.al.picUrl" mode="aspectFill"></image>
     <view class="backcover"></view>
-    <view class="tab">
-      <view :class="currentPage === 0 ? 'active' : ''">歌曲</view>
-      <view class="divider">|</view>
-      <view :class="currentPage === 1 ? 'active' : ''">歌词</view>
-    </view>
+    <nav-bar :statusBarHeight="deviceStore.statusBarHeight" :navBarHeight="deviceStore.navBarHeight" @leftClick="handleLeftClick">
+      <template #title>      
+        <view class="tab">
+          <view :class="{ 'active': currentPage === 0 }">歌曲</view>
+          <view class="divider">|</view>
+          <view :class="{ 'active': currentPage === 1 }">歌词</view>
+        </view>
+      </template>
+    </nav-bar>
     <swiper @change="handleSwiperChange" class="swiper-wrapper">
       <swiper-item class="swiper-item">
         <view class="swiper-item music">
@@ -16,7 +20,7 @@
             <view v-if="playerStore.currentMusic.ar" class="author">{{playerStore.currentMusic.ar[0].name}}</view>
             <view v-if="playerStore.currentMusic.al" class="album">{{playerStore.currentMusic.al.name}}</view>
           </view>
-          <view class="part-lyric">我是歌词</view>
+          <view class="part-lyric">{{playerStore.currentLyric}}</view>
           <view class="music-control">
             <view class="slider-wrapper">
               <slider class="slider" :value="sliderValue" @change="handleSliderChange" :block-size="12" activeColor="#1dcf9f"/>
@@ -36,7 +40,18 @@
         </view>
       </swiper-item>
       <swiper-item class="swiper-item">
-        <view class="swiper-item lyrics">歌词</view>
+        <view class="swiper-item lyrics">
+          <scroll-view  v-if="playerStore.lyricInfos.length" class="lyric-list" scroll-y="true" 
+                        :scroll-top="playerStore.currentLyricIndex * 35" 
+                        scroll-with-animation>
+            <template v-for="(item, index) in playerStore.lyricInfos">
+              <view class="item" :class="{ 'active': playerStore.currentLyricIndex === index }"
+                    :style="{ 'padding-top': (index === 0 ? (contentHeight/2-80) : 0) + 'px', 'padding-bottom': (index === playerStore.lyricInfos.length - 1 ? (contentHeight/2+80) : 0) + 'px' }">
+                {{item.text}}
+              </view>
+            </template>
+          </scroll-view>
+        </view>
       </swiper-item>
     </swiper>
   </view>
@@ -46,13 +61,22 @@
   import { ref, computed, watch } from 'vue'
   import { onLoad, onPullDownRefresh } from '@dcloudio/uni-app'
   
+  import NavBar from '@/baseui/nav-bar'
+  
   import { formatDuration } from '@/util'
   
-  import { usePlayerStore } from '@/store'
+  import { usePlayerStore, useDeviceStore } from '@/store'
 
   const playerStore = usePlayerStore()
+  const deviceStore = useDeviceStore()
   
   const currentPage = ref<number>(0)
+  const contentHeight = ref<number>(0)
+  const screenHeight = deviceStore.screenHeight
+  const statusBarHeight = deviceStore.statusBarHeight
+  const navBarheight = deviceStore.navBarHeight
+  // 计算高度
+  contentHeight.value = screenHeight - statusBarHeight - navBarheight
   
   const sliderValue = computed(() => {
     return playerStore.currentTime * 100 / playerStore.durationTime
@@ -66,7 +90,10 @@
   })
   
   onLoad(() => {
-    uni.startPullDownRefresh({})
+    const storageId: any = uni.getStorageSync('id')
+    if(!storageId && storageId !== id.value) {
+      uni.startPullDownRefresh({})
+    }
   })
   
   const getMusicData = async (isPullDown: boolean) => {
@@ -114,12 +141,20 @@
     playerStore.playNextMusic()
   }
   
+  const handleLeftClick = () => {
+    uni.setStorageSync('id', id.value)
+    uni.navigateBack({
+      delta: 1
+    })
+  }
+  
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .music-player {
   position: relative;
   height: 100vh;
+  overflow: hidden;
 }
 .backimg, .backcover{
   position: fixed;
@@ -133,9 +168,8 @@
   background-color: rgba(0,0,0,.5);
   backdrop-filter: blur(30px);
 }
+
 .tab {
-  width: 100%;
-  height: 100rpx;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -189,8 +223,16 @@
   }
   .part-lyric {
     width: 100%;
+    height: 120rpx;
+    color: $theme-color;
     text-align: center;
     padding: 30rpx 0;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; /* 这里是超出几行省略 */
+    overflow: hidden;
   }
   .music-control {
     width: 100%;
@@ -229,5 +271,36 @@
   
 }
 
+.lyrics {
+  padding: 0 70rpx;
+}
 
+.lyric-list {
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+
+.lyric-list .item {
+  height: 35px;
+  line-height: 35px;
+  font-size: 28rpx;
+  text-align: center;
+  color: #989898;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lyric-list .item.active {
+  color: #26ce8a;
+  font-size: 36rpx;
+}
 </style>
